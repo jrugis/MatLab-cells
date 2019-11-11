@@ -5,12 +5,11 @@
 #
 
 import cv2
-import glob
 import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image
-import re
 
+from stack_utils import get_stack
+    
 class IndexTracker(object):
     def __init__(self, ax, X):
         self.ax = ax
@@ -33,10 +32,7 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 # get an image stack
-filelist = glob.glob('./Image Sequence 8bit/*.tif');
-filelist.sort(key=lambda s: # numeric sort
-    [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)])
-A = np.array([np.array(Image.open(fname)) for fname in filelist])
+A = get_stack('./images/ImageSequence8bit/*.tif')
 B = np.copy(A)  # deep copy
 
 # display the image stacks A and B

@@ -17,13 +17,20 @@ def get_stack(fname):
 
 def save_stack(fname, X):
     imlist = []
-    for x in X:
-        imlist.append(Image.fromarray(x))
+    for img in X:
+        imlist.append(Image.fromarray(img))
     imlist[0].save(fname, save_all=True, append_images=imlist[1:])
     return
 
+def get_points(fname, slices): #as list of integer tuples (slice, x, y)
+    L = []
+    with open(fname, 'r') as f:
+        for line in f:
+            L.append(tuple(map(int, line.split())))
+    return(L)
+
 def save_points(fname, lP):
     with open(fname, 'w') as f:
-        for ind,l in enumerate(lP):
-            for p in l:
-                print(ind,p[0],p[1], file=f)
+        for idx, slice in enumerate(lP):
+            for pnt in slice:
+                print(idx, pnt[0], pnt[1], file=f)

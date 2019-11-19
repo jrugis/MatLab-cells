@@ -13,9 +13,9 @@ class IndexTracker(object):
         self.ax = ax
         ax.set_title('use scroll wheel to navigate images')
         self.X = X
-        self.slices, rows, cols = X.shape
+        self.slices, rows, cols = self.X.shape
         self.ind = 0
-        self.im = ax.imshow(self.X[self.ind, :, :],cmap='gray')
+        self.im = ax.imshow(self.X[self.ind, :, :], cmap='gray')
         self.update()
     def onscroll(self, event):
         #print("%s %s" % (event.button, event.step))
@@ -30,7 +30,7 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 # get an image stack
-A = su.get_stack('stackB.tif')
+A = su.get_stack('stack.tif')
 
 # display the image stack A
 figA, axA = plt.subplots(1, 1)

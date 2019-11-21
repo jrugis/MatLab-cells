@@ -7,6 +7,9 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage import io
+from skimage.util import img_as_ubyte
+from skimage import exposure
 
 import stack_utils as su
 
@@ -35,7 +38,7 @@ class IndexTracker(object):
         self.im1.axes.figure.canvas.draw()
 
 # get an image stack
-A = su.get_stack('stack.tif')
+A = io.imread('stack.tif')
 B = np.copy(A)  # deep copy
 
 # display the image stacks A and B
@@ -45,6 +48,7 @@ fig.canvas.mpl_connect('scroll_event', tracker.onscroll)
 plt.show()
 
 # modify image stack B
+#image = exposure.rescale_intensity(img10bit, in_range='uint10')
 #cv2.blur(B[0],(5,5),B[0])              # process single slice
 #[cv2.blur(x, (5,5), x) for x in B[:]]  # process whole stack
 #[cv2.medianBlur(x, 5, x) for x in B[:]]  # process whole stack
@@ -55,3 +59,7 @@ plt.show()
 tracker.update()
 
 su.save_stack('stackB.tif', B)
+
+#cv2.imshow("opencv image", B[0])
+#cv2.waitKey(0)
+#cv2.destroyAllWindows()

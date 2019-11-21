@@ -18,7 +18,10 @@ def get_tifs(fname):
     return np.array([np.array(Image.open(fname)) for fname in filelist])
 
 def get_stack(fname):
-    return np.array(io.imread(fname))
+    F = np.array(io.imread(fname))
+    bits = 8 * F.dtype.itemsize
+    F = F.astype(float) / (2**bits)    # convert to float in range 0.0 - 1.0
+    return F
 
 def save_stack(fname, X):
     imlist = []

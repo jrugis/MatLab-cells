@@ -5,9 +5,8 @@
 #
 
 import matplotlib.pyplot as plt
+from skimage import io
 
-import stack_utils as su
-    
 class IndexTracker(object):
     def __init__(self, ax, X):
         self.ax = ax
@@ -15,7 +14,7 @@ class IndexTracker(object):
         self.X = X
         self.slices, rows, cols = self.X.shape
         self.ind = 0
-        self.im = ax.imshow(self.X[self.ind, :, :], cmap='gray')
+        self.im = ax.imshow(self.X[self.ind, :, :])
         self.update()
     def onscroll(self, event):
         #print("%s %s" % (event.button, event.step))
@@ -30,7 +29,7 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 # get an image stack
-A = su.get_stack('stack.tif')
+A = io.imread('stack.tif')
 
 # display the image stack A
 figA, axA = plt.subplots(1, 1)
@@ -38,7 +37,3 @@ trackerA = IndexTracker(axA, A)
 figA.canvas.mpl_connect('scroll_event', trackerA.onscroll)
 
 plt.show()
-
-#cv2.imshow("opencv image", B[0])
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()

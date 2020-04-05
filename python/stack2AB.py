@@ -4,14 +4,10 @@
 # J.rugis
 #
 
-import cv2
+from cv2 import bilateralFilter
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io
-from skimage.util import img_as_ubyte
-from skimage import exposure
-
-import stack_utils as su
 
 class IndexTracker(object):
     def __init__(self, ax, X, Y):
@@ -48,17 +44,16 @@ fig.canvas.mpl_connect('scroll_event', tracker.onscroll)
 plt.show()
 
 # modify image stack B
-#image = exposure.rescale_intensity(img10bit, in_range='uint10')
 #cv2.blur(B[0],(5,5),B[0])              # process single slice
 #[cv2.blur(x, (5,5), x) for x in B[:]]  # process whole stack
 #[cv2.medianBlur(x, 5, x) for x in B[:]]  # process whole stack
 #[cv2.GaussianBlur(x, (0,0), 5, x) for x in B[:]]  # process whole stack
 #[cv2.bilateralFilter(x, 6, 12, 3, x) for x in B[:]]  # process whole stack
-[cv2.bilateralFilter(A[i], 9, 200, 200, B[i]) for i in range(A.shape[0])]
+[bilateralFilter(A[i], 9, 200, 200, B[i]) for i in range(A.shape[0])]
 #[cv2.morphologyEx(B[i], cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_RECT,(10,10)),A[i]) for i in range(B.shape[0])]
 tracker.update()
 
-su.save_stack('stackB.tif', B)
+io.imsave('stackB.tif', B)
 
 #cv2.imshow("opencv image", B[0])
 #cv2.waitKey(0)

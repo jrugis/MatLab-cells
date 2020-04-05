@@ -3,6 +3,8 @@
 # 14.11.19
 # J.rugis
 #
+# python3 oib_stack_viewer.py
+#
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,25 +35,34 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 
-# get an image stack
+# get an iob image stack
+# rearrange columns, scale to 12 bit range, convert to float range 0.0 to 1.0
 fname = '/Users/jrug001/Desktop/nesi00119/mesh-cells/images/nak_atpase_zo1/'
 LIST = ['Rb NaK ATPase1-500-500 + Ms ZO-1 1-250-500-002.oib',
         'Rb NaK ATPase1-500-500 + Ms ZO-1 1-250-500-004-Zoom.oib',
         'Rb NaK ATPase1-500-500 + Ms ZO-1 1-250-500-006-Zoom.oib',
         'Rb NaK ATPase1-500-500 + Ms ZO-1 1-250-500-007-Zoom.oib',
         'Rb NaK ATPase1-500-500 + Ms ZO-1 1-250-500-008-Zoom.oib']
-fname += LIST[4]
-F = img_as_float(np.transpose(oif.imread(fname),(1,2,3,0))) # rearrange columns
+#fname = '/Users/jrug001/Desktop/nesi00119/mesh-cells/images/areaXX/'
+#LIST = ['20191120_Mist_05_z1x_820nm.oib',
+#        'area1.oib',
+#        'area1.oib',
+#        'area1.oib',
+#        'area1.oib']
+fname += LIST[0]
+F = img_as_float(exposure.rescale_intensity(
+        np.transpose(oif.imread(fname),(1,2,3,0)), in_range='uint12'))
 
-RG = exposure.rescale_intensity([1.0 ,1.0, 0.0] * F.copy(), in_range=(0.001, 0.01))
+# copy image stack, select the red and green channels
+R = [1.0 ,1.0, 0.0] * np.copy(F)
 figA1, axA1 = plt.subplots(1, 1)
-trackerA1 = IndexTracker(axA1, RG)
+trackerA1 = IndexTracker(axA1, R)
 figA1.canvas.mpl_connect('scroll_event', trackerA1.onscroll)
 
-P = F.copy()
+# copy image stack, duplicate the optical channel
+P = np.copy(F)
 P[:,:,:,0] = P[:,:,:,2]  # duplicate the optical channel 
 P[:,:,:,1] = P[:,:,:,2]  # ...
-P = exposure.rescale_intensity(P)
 figA2, axA2 = plt.subplots(1, 1)
 trackerA2 = IndexTracker(axA2, P)
 figA2.canvas.mpl_connect('scroll_event', trackerA2.onscroll)

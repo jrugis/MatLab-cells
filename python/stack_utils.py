@@ -7,7 +7,6 @@
 import glob
 import numpy as np
 from PIL import Image
-from skimage import io
 import os
 import re
 
@@ -16,19 +15,6 @@ def get_tifs(fname):
     filelist.sort(key=lambda s: # numeric sort
         [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s)])
     return np.array([np.array(Image.open(fname)) for fname in filelist])
-
-def get_stack(fname):
-    F = np.array(io.imread(fname))
-    bits = 8 * F.dtype.itemsize
-    F = F.astype(float) / (2**bits)    # convert to float in range 0.0 - 1.0
-    return F
-
-def save_stack(fname, X):
-    imlist = []
-    for img in X:
-        imlist.append(Image.fromarray(img))
-    imlist[0].save(fname, save_all=True, append_images=imlist[1:])
-    return
 
 def get_points(fname, slices): #as list of integer tuples (slice, x, y)
     L = []

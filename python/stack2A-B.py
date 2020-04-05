@@ -4,12 +4,11 @@
 # J.rugis
 #
 
-import cv2
+from cv2 import bilateralFilter
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage import io
 
-import stack_utils as su
-    
 class IndexTracker(object):
     def __init__(self, ax, X):
         self.ax = ax
@@ -32,7 +31,7 @@ class IndexTracker(object):
         self.im.axes.figure.canvas.draw()
 
 # get an image stack
-A = su.get_stack('stack.tif')
+A = io.imread('stack.tif')
 B = np.copy(A)  # deep copy
 
 # display the image stacks A and B
@@ -52,11 +51,11 @@ plt.show()
 #[cv2.medianBlur(x, 5, x) for x in B[:]]  # process whole stack
 #[cv2.GaussianBlur(x, (0,0), 5, x) for x in B[:]]  # process whole stack
 #[cv2.bilateralFilter(x, 6, 12, 3, x) for x in B[:]]  # process whole stack
-[cv2.bilateralFilter(A[i], 9, 200, 200, B[i]) for i in range(A.shape[0])]
+[bilateralFilter(A[i], 9, 200, 200, B[i]) for i in range(A.shape[0])]
 #[cv2.morphologyEx(B[i], cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_RECT,(10,10)),A[i]) for i in range(B.shape[0])]
 trackerB.update()
 
-su.save_stack('stackB.tif', B)
+io.imsave('stackB.tif', B)
 
 #cv2.imshow("opencv image", B[0])
 #cv2.waitKey(0)

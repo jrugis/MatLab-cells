@@ -1,0 +1,31 @@
+******************************************************
+07.04.20
+
+bio-formats
+  command line
+  python
+
+CellProfiler
+
+imagej plugin
+  moving average over time
+  Mistgcamp-3-0002_mavg.avi
+  Stack_Moving_Average.txt
+
+static image
+  time average of all unstimulated
+  "ground truth"
+
+cells squiggle...
+  might need image registration
+    using markers?
+  could this be due to volume increase?
+
+subtract static image from stimulated moving average?
+as a percentage increase? 
+
+******************************************************
+******************************************************
+******************************************************
+
+

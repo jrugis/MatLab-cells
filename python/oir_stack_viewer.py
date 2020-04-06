@@ -12,7 +12,7 @@ from skimage import exposure
 from skimage.util import img_as_float32
 from cv2 import bilateralFilter
 
-filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-1.oir"
+filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0002.oir"
 
 class IndexTracker(object):
     def __init__(self, ax, X):

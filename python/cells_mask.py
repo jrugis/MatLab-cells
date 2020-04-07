@@ -86,7 +86,7 @@ ax5.hist(O.flatten(), bins=100)
 
 ###########################################
 # difference threashold
-P = (O > 0.4).astype(float)
+P = (O > 0.61).astype(float)
 
 # plot image
 ax6 = fig.add_subplot(gs[0, 3])
@@ -101,7 +101,6 @@ Q = filters.scharr(M)
 #Q = feature.canny(M, sigma=1.0)
 
 ###########################################
-#io.imsave("test.jpg", Q)
 #im = cv2.imread("test.jpg")
 #im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 #v = cv2.HoughCircles(im, cv2.HOUGH_GRADIENT, 2, 20, param1=25,param2=30,minRadius=2,maxRadius=8)
@@ -112,6 +111,7 @@ Q = filters.scharr(M)
 
 ###########################################
 # show the plots
+io.imsave("apical_diff.jpg", O)
 ax.imshow(O, norm=None, cmap='coolwarm')
 plt.tight_layout()
 plt.show()

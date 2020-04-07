@@ -21,9 +21,16 @@ cells squiggle...
     using markers?
   could this be due to volume increase?
 
-subtract static image from stimulated moving average?
-as a percentage increase? 
+subtract static image from stimulated average
 
+find small disks (cell nuclei)
+
+apical_diff.jpg - from cells-mask.py
+image
+  brightness/contrast
+  binary | make binary
+  binary | 2x open
+ 
 ******************************************************
 ******************************************************
 ******************************************************

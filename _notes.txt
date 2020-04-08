@@ -25,12 +25,29 @@ subtract static image from stimulated average
 
 find small disks (cell nuclei)
 
-apical_diff.jpg - from cells-mask.py
-image
+##########################
+
+cells-mask.py
+  -> apical_diff.jpg
+
+imagej
+  <- apical_diff.jpg
   brightness/contrast
   binary | make binary
   binary | 2x open
- 
+  -> apical_binary.jpg
+
+gimp
+  <- apical_binary.jpg
+  manual edit
+  -> apical_binary_single.jpg  
+
+apical_plot.py
+  plot
+
+##########################
+
+
 ******************************************************
 ******************************************************
 ******************************************************

@@ -13,9 +13,13 @@ from skimage import exposure
 from skimage import filters
 from skimage import feature
 from skimage.util import img_as_float32
+from skimage.morphology import binary_erosion
+from skimage.morphology import binary_dilation
+from skimage.morphology import label
+from skimage.morphology import remove_small_objects
 import cv2
 
-filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0003.oir"
+filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0002.oir"
 
 figX, ax = plt.subplots(1, 1) # an extra single figure
 
@@ -86,16 +90,28 @@ ax5.hist(O.flatten(), bins=100)
 
 ###########################################
 # difference threashold
-P = (O > 0.61).astype(float)
+P = (O > 0.36).astype(float)
 
 # plot image
 ax6 = fig.add_subplot(gs[0, 3])
-ax6.imshow(P, norm=None, cmap='coolwarm')
+ax6.imshow(P, norm=None, cmap='gray')
+
+###########################################
+# remove small, thicken, label
+Q = binary_erosion(P)
+Q = binary_erosion(P)
+Q = binary_erosion(P)
+Q = remove_small_objects(Q, 16)
+Q = binary_dilation(Q)
+Q = binary_dilation(Q)
+Q, n = label(Q, return_num=True)
+print(n)
+print(np.max(Q))
 
 ###########################################
 #edge detection
 
-Q = filters.scharr(M)
+#Q = filters.scharr(M)
 #Q = filters.sobel(M)
 #Q = filters.prewitt(M)
 #Q = feature.canny(M, sigma=1.0)
@@ -111,8 +127,8 @@ Q = filters.scharr(M)
 
 ###########################################
 # show the plots
-io.imsave("apical_diff.jpg", O)
-ax.imshow(O, norm=None, cmap='coolwarm')
+io.imsave("apical_mask.tif", Q)
+ax.imshow(Q, norm=None, cmap='gray')
 plt.tight_layout()
 plt.show()
 

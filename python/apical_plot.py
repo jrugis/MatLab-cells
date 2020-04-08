@@ -12,7 +12,7 @@ from skimage import exposure
 from skimage.util import img_as_float32
 
 filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0002.oir"
-filemask= "apical_binary_single.jpg"
+filemask= "apical_mask.tif"
 
 def moving_average(a, n=3) :
     ret = np.cumsum(a, dtype=float)
@@ -30,14 +30,20 @@ A0 = exposure.rescale_intensity(A0)
 #  A0[n] = (A0[n] + A0[n+1]) / 2.0
 
 # get the apical mask
-M = img_as_float32(io.imread(filemask))
+M = io.imread(filemask)
+N, counts = np.unique(M, return_counts=True)
+print(N[1:])
+print(counts[1:])
+plt.figure(0)
+plt.imshow(M, cmap='gray')
 
-A = A0[:, M.astype(bool)]
-B = np.sum(A, axis=1) / A.shape[1]
+for n in N:
+  if(n==0):
+    continue
+  A = A0[:, M==N[n]]
+  B = np.sum(A, axis=1) / A.shape[1]
+  plt.figure(n)
+  P0 = plt.plot(A)
+  P1 = plt.plot(B, color='black')
 
-#P0 = moving_average(A0[:, 250:255, 250], 7)
-#P0 = 
-
-P0 = plt.plot(A)
-P1 = plt.plot(B, color='black')
 plt.show()

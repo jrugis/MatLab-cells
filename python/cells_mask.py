@@ -97,13 +97,17 @@ ax6 = fig.add_subplot(gs[0, 3])
 ax6.imshow(P, norm=None, cmap='gray')
 
 ###########################################
-# remove small, thicken, label
+# remove small, thicken
 Q = binary_erosion(P)
 Q = binary_erosion(P)
 Q = binary_erosion(P)
 Q = remove_small_objects(Q, 16)
 Q = binary_dilation(Q)
 Q = binary_dilation(Q)
+ax7 = fig.add_subplot(gs[1, 3])
+ax7.imshow(Q, norm=None, cmap='gray')
+
+# label
 Q, n = label(Q, return_num=True)
 print(n)
 print(np.max(Q))

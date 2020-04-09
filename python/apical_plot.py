@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from skimage import io
 from skimage import exposure
 from skimage.util import img_as_float32
+from scipy import fftpack
 
 filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0002.oir"
 filemask= "apical_mask.tif"
@@ -45,5 +46,15 @@ for n in N:
   plt.figure(n)
   P0 = plt.plot(A)
   P1 = plt.plot(B, color='black')
+#  if(n==11):
+#    f_s = 10
+#    X = fftpack.fft(B)
+#    freqs = fftpack.fftfreq(len(B)) * f_s
+#    fig, ax = plt.subplots()
+#    ax.stem(freqs, np.abs(X))
+#    ax.set_xlabel('Frequency in Hertz [Hz]')
+#    ax.set_ylabel('Frequency Domain (Spectrum) Magnitude')
+#    ax.set_xlim(-f_s / 2, f_s / 2)
+#    ax.set_ylim(-5, 10)
 
 plt.show()

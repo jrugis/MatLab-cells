@@ -43,9 +43,13 @@ for n in N:
     continue
   A = A0[:, M==N[n]]
   B = np.sum(A, axis=1) / A.shape[1]
-  plt.figure(n)
+  fig = plt.figure(n)
   P0 = plt.plot(A)
   P1 = plt.plot(B, color='black')
+  plt.title("apical region " + str(n) + "  (" + str(counts[n]) + " pixels and average)")
+  plt.xlabel("frame")
+  plt.ylabel("F")
+  fig.savefig("rio_" + str(n) + ".pdf")
 #  if(n==11):
 #    f_s = 10
 #    X = fftpack.fft(B)

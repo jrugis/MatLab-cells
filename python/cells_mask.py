@@ -23,7 +23,7 @@ filename = "/Users/jrug001/Desktop/nesi00119/Yule/intravital/Mistgcamp-3_0002.oi
 
 figX, ax = plt.subplots(1, 1) # an extra single figure
 
-fig = plt.figure(figsize=(16, 4))
+fig = plt.figure(figsize=(16, 8))
 gs = gridspec.GridSpec(nrows=2, ncols=4, height_ratios=[1, 1])
 
 # get the image stack
@@ -51,10 +51,12 @@ for n in range(M.shape[0] - 1): # average over every two lines
 # plot image
 ax0 = fig.add_subplot(gs[0, 0])
 ax0.imshow(M, norm=None, cmap='coolwarm')
+plt.title("unstimulated average")
 
 # plot image histogram
 ax1 = fig.add_subplot(gs[1, 0])
 ax1.hist(M.flatten(), bins=100)
+plt.title("histogram")
 
 ###########################################
 # stimulated average over time
@@ -71,6 +73,7 @@ for n in range(N.shape[0] - 1): # average over every two lines
 # plot image
 ax2 = fig.add_subplot(gs[0, 1])
 ax2.imshow(N, norm=None, cmap='coolwarm')
+plt.title("stimulated average")
 
 # plot image histogram
 ax3 = fig.add_subplot(gs[1, 1])
@@ -83,6 +86,7 @@ O = N - M
 # plot image
 ax4 = fig.add_subplot(gs[0, 2])
 ax4.imshow(O, norm=None, cmap='coolwarm')
+plt.title("stimulated - unstimulated")
 
 # plot image histogram
 ax5 = fig.add_subplot(gs[1, 2])
@@ -95,6 +99,7 @@ P = (O > 0.36).astype(float)
 # plot image
 ax6 = fig.add_subplot(gs[0, 3])
 ax6.imshow(P, norm=None, cmap='gray')
+plt.title("initial ROI mask")
 
 ###########################################
 # remove small, thicken
@@ -106,6 +111,7 @@ Q = binary_dilation(Q)
 Q = binary_dilation(Q)
 ax7 = fig.add_subplot(gs[1, 3])
 ax7.imshow(Q, norm=None, cmap='gray')
+plt.title("filtered ROI mask")
 
 # label
 Q, n = label(Q, return_num=True)
@@ -133,7 +139,9 @@ print(np.max(Q))
 # show the plots
 io.imsave("apical_mask.tif", Q)
 ax.imshow(Q, norm=None, cmap='gray')
-plt.tight_layout()
+gs.tight_layout(fig)
+#plt.tight_layout()
+fig.savefig("image_processing.pdf")
 plt.show()
 
 
